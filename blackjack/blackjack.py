@@ -100,7 +100,7 @@ def got_ace(player_cards):
             return True, player_cards
     return False, player_cards
 
-# ========================== MAIN GAME RUNNING ======================================
+# ==================================================== MAIN GAME RUNNING ====================================================
 
 while True:
     print(logo)
