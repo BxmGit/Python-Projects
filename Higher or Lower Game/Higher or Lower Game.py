@@ -15,42 +15,39 @@ import os
 # If wrong clear and display final score. 
 
 def user_guess():
-    global guess
-    if input("Who has more followers? Type 'A' or 'B': ") == 'A':
-        guess = 0
-        return guess
-    elif input("Who has more followers? Type 'A' or 'B': ") == 'B':
-        guess = 1
-        return guess
+    guess = input("Who has more followers? Type 'A' or 'B': ")
+    if guess == 'A':
+        return 0
+    elif guess == 'B':
+        return 1
 
 
 def most_followers(person_A, person_B):
-    global winner
     if person_A['follower_count'] > person_B['follower_count']:
-        winner = 0
-        return winner
+        return 0
     else:
-        winner = 1
-        return winner
+        return 1
 
 
 def compare_guess(guess, winner):
-    global score
-    global game_playing
     if guess == winner:
+        os.system('cls' if os.name == 'nt' else 'clear')
         print("You guessed correctly.")
-        score += 1
-        return score
-    elif guess != winner:
-        print("You guessed wrong.")
-        game_playing = False
-        return game_playing
+        return True, 1
+    else:
+        os.system('cls' if os.name == 'nt' else 'clear')
+        print("You guessed wrong. Play again?")
+        return False, 0
 
 
 def game():
-    while game_playing == True:
+    game_playing = True
+    score = 0
+    while game_playing:
         person_A = random.choice(data)
-        person_B = random.choice(data) 
+        person_B = random.choice(data)
+        while person_A == person_B:
+            person_B = random.choice(data)
         print(logo)
         if score > 0:
             print(f"You're right! Current score: {score}")
@@ -60,23 +57,12 @@ def game():
         
         winner = most_followers(person_A=person_A, person_B=person_B)
         guess = user_guess()
-        compare_guess(guess=guess, winner=winner)
-        os.system('cls')
+        game_playing, points = compare_guess(guess=guess, winner=winner)
+        score += points
 
+    play_again = input("Do you want to play again? Type 'Y' or 'N': ")
+    if play_again == 'Y':
+        game()
+
+game()
     
-# =========== MAIN ============
-# Choose random persons, and store data in variable.
-
-
-guess = ''
-winner = ''
-score = 0
-
-game_playing = True
-
-
-game(guess=guess, winner=winner)
-
-
-
-
